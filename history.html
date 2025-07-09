@@ -40,7 +40,7 @@
 
   <script>
     const userId = new URLSearchParams(window.location.search).get("user_id") || "";
-    const SHEET_URL = "https://script.google.com/macros/s/AKfycbxxGHKmccydhGDUous8-QjMueIE2i8D8mdfgZrEisDZg0m7kL6uClt6yqiCJ4tq2yMHWA/exec?user_id=" + userId;
+    const SHEET_URL = "https://script.google.com/macros/s/AKfycbxBu8Yo3Ym-ldSWdwWBWtw27pkKX3uC9seuyTYmjfxyOpT9Ccys-KNhCL9b5TH66dAsZg/exec?user_id=" + userId;
 
     fetch(SHEET_URL)
       .then(res => res.json())
