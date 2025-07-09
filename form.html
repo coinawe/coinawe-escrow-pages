@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Form Buat Escrow</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      background-color: #0f172a;
+      color: #38bdf8;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 4px;
+    }
+    input, select {
+      background-color: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+      padding: 10px;
+      width: 100%;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+    button {
+      background: linear-gradient(90deg, #06b6d4, #3b82f6);
+      color: #0f172a;
+      font-weight: bold;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 0 8px #38bdf8;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      box-shadow: 0 0 16px #38bdf8;
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body>
+  <h2>🚀 Form Buat Escrow</h2>
+  <form action="https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec" method="post">
+    <label for="buyer">Username Buyer:</label>
+    <input id="buyer" name="buyer" required>
+
+    <label for="seller">Username Seller:</label>
+    <input id="seller" name="seller" required>
+
+    <label for="item">Item / Layanan:</label>
+    <input id="item" name="item" required>
+
+    <label for="amount">Jumlah (Amount):</label>
+    <input id="amount" name="amount" type="number" required>
+
+    <label for="token">Token yang Digunakan:</label>
+    <select id="token" name="token">
+      <option value="TON">TON</option>
+      <option value="AWEWE">AWEWE</option>
+    </select>
+
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>

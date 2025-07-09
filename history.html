@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Riwayat Transaksi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      background-color: #0f172a;
+      color: #38bdf8;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    .entry {
+      background-color: #1e293b;
+      padding: 16px;
+      margin: 12px 0;
+      border-radius: 10px;
+      animation: fadeIn 0.4s ease;
+    }
+    .entry b {
+      color: #f0f9ff;
+    }
+    .status {
+      font-weight: bold;
+      color: #22d3ee;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <h2>🧾 Riwayat Escrow</h2>
+  <div id="history">Memuat data...</div>
+
+  <script>
+    const userId = new URLSearchParams(window.location.search).get("user_id") || "";
+    const SHEET_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?user_id=" + userId;
+
+    fetch(SHEET_URL)
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("history");
+        if (!data || data.length === 0) {
+          container.innerHTML = '<p>Tidak ada transaksi ditemukan.</p>';
+          return;
+        }
+        container.innerHTML = '';
+        data.forEach(row => {
+          container.innerHTML += `
+            <div class="entry">
+              <b>Item:</b> ${row.item}<br>
+              <b>Jumlah:</b> ${row.amount} ${row.token}<br>
+              <b>Status:</b> <span class="status">${row.status}</span><br>
+              <small><b>Buyer:</b> ${row.buyer_username} • <b>Seller:</b> ${row.seller_username}</small>
+            </div>
+          `;
+        });
+      })
+      .catch(err => {
+        document.getElementById("history").innerHTML = '<p>Gagal memuat data transaksi.</p>';
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
