@@ -7,26 +7,60 @@
   <style>
     body {
       background-color: #0f172a;
-      color: #38bdf8;
+      color: #e2e8f0;
       font-family: 'Segoe UI', sans-serif;
       padding: 20px;
     }
-    h2 {
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 20px;
+    }
+    h2 {
+      font-size: 1.5rem;
+      color: #38bdf8;
+    }
+    select {
+      background-color: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+      padding: 6px 12px;
+      border-radius: 6px;
     }
     .entry {
       background-color: #1e293b;
       padding: 16px;
-      margin: 12px 0;
-      border-radius: 10px;
-      animation: fadeIn 0.4s ease;
+      margin-bottom: 12px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      animation: fadeIn 0.3s ease;
     }
     .entry b {
       color: #f0f9ff;
     }
     .status {
       font-weight: bold;
-      color: #22d3ee;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .status.Completed {
+      background-color: #22c55e;
+      color: #0f172a;
+    }
+    .status.Pending {
+      background-color: #facc15;
+      color: #0f172a;
+    }
+    .status.Cancelled {
+      background-color: #ef4444;
+      color: #fff;
+    }
+    .footer {
+      text-align: center;
+      font-size: 0.85rem;
+      margin-top: 20px;
+      color: #94a3b8;
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
@@ -35,37 +69,98 @@
   </style>
 </head>
 <body>
-  <h2>🧾 Riwayat Escrow</h2>
+  <header>
+    <h2 id="page-title">🧾 Riwayat Escrow</h2>
+    <select onchange="setLanguage(this.value)">
+      <option value="id">🌐 Bahasa</option>
+      <option value="en">English</option>
+      <option value="ru">Русский</option>
+    </select>
+  </header>
+
   <div id="history">Memuat data...</div>
 
-  <script>
-    const userId = new URLSearchParams(window.location.search).get("user_id") || "";
-    const SHEET_URL = "https://script.google.com/macros/s/AKfycbywHuDI_p6ZrFJakBxZbCd4fhmc0sVeQj4vVQkSgOfP39XJXr9tbs7M0SL8VqpPjVyZ_w/exec?user_id=" + userId;
+  <div class="footer" id="footer-text">Menampilkan transaksi berdasarkan ID pengguna.</div>
 
-    fetch(SHEET_URL)
-      .then(res => res.json())
-      .then(data => {
-        const container = document.getElementById("history");
-        if (!data || data.length === 0) {
-          container.innerHTML = '<p>Tidak ada transaksi ditemukan.</p>';
-          return;
+  <script>
+    const translations = {
+      id: {
+        title: "🧾 Riwayat Escrow",
+        loading: "Memuat data...",
+        empty: "Tidak ada transaksi ditemukan.",
+        failed: "Gagal memuat data transaksi.",
+        buyer: "Pembeli",
+        seller: "Penjual",
+        amount: "Jumlah",
+        item: "Item",
+        status: "Status",
+        footer: "Menampilkan transaksi berdasarkan ID pengguna.",
+        statuses: {
+          Completed: "Selesai",
+          Pending: "Menunggu",
+          Cancelled: "Dibatalkan"
         }
-        container.innerHTML = '';
-        data.forEach(row => {
-          container.innerHTML += `
-            <div class="entry">
-              <b>Item:</b> ${row.item}<br>
-              <b>Jumlah:</b> ${row.amount} ${row.token}<br>
-              <b>Status:</b> <span class="status">${row.status}</span><br>
-              <small><b>Buyer:</b> ${row.buyer_username} • <b>Seller:</b> ${row.seller_username}</small>
-            </div>
-          `;
-        });
-      })
-      .catch(err => {
-        document.getElementById("history").innerHTML = '<p>Gagal memuat data transaksi.</p>';
-        console.error(err);
-      });
-  </script>
-</body>
-</html>
+      },
+      en: {
+        title: "🧾 Escrow History",
+        loading: "Loading data...",
+        empty: "No transactions found.",
+        failed: "Failed to load transaction data.",
+        buyer: "Buyer",
+        seller: "Seller",
+        amount: "Amount",
+        item: "Item",
+        status: "Status",
+        footer: "Showing transactions based on user ID.",
+        statuses: {
+          Completed: "Completed",
+          Pending: "Pending",
+          Cancelled: "Cancelled"
+        }
+      },
+      ru: {
+        title: "🧾 История Эскроу",
+        loading: "Загрузка данных...",
+        empty: "Транзакции не найдены.",
+        failed: "Не удалось загрузить данные.",
+        buyer: "Покупатель",
+        seller: "Продавец",
+        amount: "Сумма",
+        item: "Предмет",
+        status: "Статус",
+        footer: "Отображаются транзакции по ID пользователя.",
+        statuses: {
+          Completed: "Завершено",
+          Pending: "В ожидании",
+          Cancelled: "Отменено"
+        }
+      }
+    };
+
+    let currentLang = 'id';
+    const userId = new URLSearchParams(window.location.search).get("user_id") || "";
+    const container = document.getElementById("history");
+    const footer = document.getElementById("footer-text");
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      const t = translations[lang] || translations["en"];
+      document.getElementById("page-title").innerText = t.title;
+      footer.innerText = t.footer;
+      container.innerText = t.loading;
+      fetchData(t);
+    }
+
+    function fetchData(t) {
+      fetch("https://script.google.com/macros/s/AKfycbywHuDI_p6ZrFJakBxZbCd4fhmc0sVeQj4vVQkSgOfP39XJXr9tbs7M0SL8VqpPjVyZ_w/exec?user_id=" + userId)
+        .then(res => res.json())
+        .then(data => {
+          if (!data || data.length === 0) {
+            container.innerHTML = `<p>${t.empty}</p>`;
+            return;
+          }
+          container.innerHTML = '';
+          data.forEach(row => {
+            const statusClass = row.status;
+            const statusLabel = t.statuses[row.status] || row.status;
+            container
