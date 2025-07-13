@@ -51,10 +51,19 @@
       border-radius: 8px;
       box-shadow: 0 0 8px #38bdf8;
       transition: all 0.3s ease;
+      margin-bottom: 10px;
     }
     button:hover {
       box-shadow: 0 0 16px #38bdf8;
       transform: scale(1.02);
+    }
+    .btn-back {
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+    }
+    .btn-back:hover {
+      background: #334155;
     }
   </style>
 </head>
@@ -98,6 +107,7 @@
     </select>
 
     <button type="submit" id="submit-button"></button>
+    <button type="button" class="btn-back" onclick="goBack()" id="back-button"></button>
   </form>
 
   <script>
@@ -110,6 +120,7 @@
         amount: "Jumlah (Nominal):",
         token: "Token yang Digunakan:",
         submit: "Kirim",
+        back: "Kembali",
         confirm: "Apakah semua data sudah benar?"
       },
       en: {
@@ -120,6 +131,7 @@
         amount: "Amount:",
         token: "Token Used:",
         submit: "Submit",
+        back: "Back",
         confirm: "Is all data correct?"
       },
       ru: {
@@ -130,6 +142,7 @@
         amount: "Сумма:",
         token: "Используемый токен:",
         submit: "Отправить",
+        back: "Назад",
         confirm: "Все данные верны?"
       }
     };
@@ -147,7 +160,12 @@
       document.getElementById('label-amount').innerText = t.amount;
       document.getElementById('label-token').innerText = t.token;
       document.getElementById('submit-button').innerText = t.submit;
+      document.getElementById('back-button').innerText = "⬅ " + t.back;
       confirmText = t.confirm;
+    }
+
+    function goBack() {
+      window.history.back();
     }
 
     // Set language based on browser default
