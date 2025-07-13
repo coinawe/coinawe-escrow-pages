@@ -14,6 +14,8 @@
     header {
       display: flex;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
       align-items: center;
       margin-bottom: 20px;
     }
@@ -21,12 +23,18 @@
       font-size: 1.5rem;
       color: #38bdf8;
     }
-    select {
+    select, input[type="text"] {
       background-color: #1e293b;
       color: #e2e8f0;
       border: 1px solid #334155;
       padding: 6px 12px;
       border-radius: 6px;
+    }
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
     }
     .entry {
       background-color: #1e293b;
@@ -62,6 +70,35 @@
       margin-top: 20px;
       color: #94a3b8;
     }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .pagination button {
+      background-color: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .pagination button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    #back-home-button {
+      display: inline-block;
+      background-color: #1e293b;
+      color: #e2e8f0;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 30px;
+    }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -78,9 +115,26 @@
     </select>
   </header>
 
+  <div class="controls">
+    <input type="text" id="search-input" placeholder="🔍 Cari Buyer/Seller...">
+    <select id="role-filter">
+      <option value="">🔁 Semua Peran</option>
+      <option value="buyer">👤 Hanya Buyer</option>
+      <option value="seller">🏷️ Hanya Seller</option>
+    </select>
+  </div>
+
   <div id="history">Memuat data...</div>
+  <div class="pagination">
+    <button onclick="prevPage()" id="prev-btn">⬅ Prev</button>
+    <button onclick="nextPage()" id="next-btn">Next ➡</button>
+  </div>
 
   <div class="footer" id="footer-text">Menampilkan transaksi berdasarkan ID pengguna.</div>
+
+  <div style="text-align:center;">
+    <a href="https://escrow.coinawe.site" id="back-home-button">⬅ Kembali ke Menu Utama</a>
+  </div>
 
   <script>
     const translations = {
@@ -95,6 +149,7 @@
         item: "Item",
         status: "Status",
         footer: "Menampilkan transaksi berdasarkan ID pengguna.",
+        back_home: "⬅ Kembali ke Menu Utama",
         statuses: {
           Completed: "Selesai",
           Pending: "Menunggu",
@@ -112,6 +167,7 @@
         item: "Item",
         status: "Status",
         footer: "Showing transactions based on user ID.",
+        back_home: "⬅ Back to Main Menu",
         statuses: {
           Completed: "Completed",
           Pending: "Pending",
@@ -129,6 +185,7 @@
         item: "Предмет",
         status: "Статус",
         footer: "Отображаются транзакции по ID пользователя.",
+        back_home: "⬅ Назад в главное меню",
         statuses: {
           Completed: "Завершено",
           Pending: "В ожидании",
@@ -138,6 +195,10 @@
     };
 
     let currentLang = 'id';
+    let allData = [];
+    let currentPage = 1;
+    const pageSize = 10;
+
     const userId = new URLSearchParams(window.location.search).get("user_id") || "";
     const container = document.getElementById("history");
     const footer = document.getElementById("footer-text");
@@ -147,6 +208,11 @@
       const t = translations[lang] || translations["en"];
       document.getElementById("page-title").innerText = t.title;
       footer.innerText = t.footer;
+      document.getElementById("search-input").placeholder = "🔍 " + t.buyer + "/" + t.seller;
+      document.getElementById("role-filter").options[0].text = "🔁 Semua Peran";
+      document.getElementById("role-filter").options[1].text = "👤 Hanya " + t.buyer;
+      document.getElementById("role-filter").options[2].text = "🏷️ Hanya " + t.seller;
+      document.getElementById("back-home-button").innerText = t.back_home;
       container.innerText = t.loading;
       fetchData(t);
     }
@@ -155,12 +221,88 @@
       fetch("https://script.google.com/macros/s/AKfycbywHuDI_p6ZrFJakBxZbCd4fhmc0sVeQj4vVQkSgOfP39XJXr9tbs7M0SL8VqpPjVyZ_w/exec?user_id=" + userId)
         .then(res => res.json())
         .then(data => {
-          if (!data || data.length === 0) {
-            container.innerHTML = `<p>${t.empty}</p>`;
-            return;
-          }
-          container.innerHTML = '';
-          data.forEach(row => {
-            const statusClass = row.status;
-            const statusLabel = t.statuses[row.status] || row.status;
-            container
+          allData = data || [];
+          currentPage = 1;
+          renderData(t);
+        })
+        .catch(() => {
+          container.innerHTML = `<p>${t.failed}</p>`;
+        });
+    }
+
+    function filterData() {
+      const q = document.getElementById("search-input").value.toLowerCase();
+      const role = document.getElementById("role-filter").value;
+      return allData.filter(row => {
+        const matchSearch = (
+          row.buyer_username.toLowerCase().includes(q) ||
+          row.seller_username.toLowerCase().includes(q)
+        );
+        const matchRole = (
+          role === "" ||
+          (role === "buyer" && row.buyer_username.toLowerCase().includes(q)) ||
+          (role === "seller" && row.seller_username.toLowerCase().includes(q))
+        );
+        return matchSearch && matchRole;
+      });
+    }
+
+    function renderData(t) {
+      const filtered = filterData();
+      const start = (currentPage - 1) * pageSize;
+      const pageData = filtered.slice(start, start + pageSize);
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<p>${t.empty}</p>`;
+        return;
+      }
+
+      container.innerHTML = "";
+      pageData.forEach(row => {
+        const statusClass = row.status;
+        const statusLabel = t.statuses[row.status] || row.status;
+        container.innerHTML += `
+          <div class="entry">
+            <b>${t.item}:</b> ${row.item}<br>
+            <b>${t.amount}:</b> ${row.amount} ${row.token}<br>
+            <b>${t.status}:</b> <span class="status ${statusClass}">${statusLabel}</span><br>
+            <small><b>${t.buyer}:</b> ${row.buyer_username} • <b>${t.seller}:</b> ${row.seller_username}</small>
+          </div>
+        `;
+      });
+
+      document.getElementById("prev-btn").disabled = currentPage === 1;
+      document.getElementById("next-btn").disabled = start + pageSize >= filtered.length;
+    }
+
+    function prevPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        renderData(translations[currentLang]);
+      }
+    }
+
+    function nextPage() {
+      const filtered = filterData();
+      if (currentPage * pageSize < filtered.length) {
+        currentPage++;
+        renderData(translations[currentLang]);
+      }
+    }
+
+    document.getElementById("search-input").addEventListener("input", () => {
+      currentPage = 1;
+      renderData(translations[currentLang]);
+    });
+
+    document.getElementById("role-filter").addEventListener("change", () => {
+      currentPage = 1;
+      renderData(translations[currentLang]);
+    });
+
+    const browserLang = navigator.language.slice(0, 2);
+    const defaultLang = ["id", "en", "ru"].includes(browserLang) ? browserLang : "en";
+    setLanguage(defaultLang);
+  </script>
+</body>
+</html>
