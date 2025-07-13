@@ -1,31 +1,117 @@
+<!-- Updated index.html with spinner and improved responsiveness -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Coinawe Site</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
     body { background-color: #f8f9fa; color: #333; }
-    header { background-color: #01426a; color: white; padding: 20px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+    header {
+      background-color: #01426a;
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
     nav { margin-top: 10px; }
-    nav a { margin-left: 15px; color: white; text-decoration: none; font-weight: 600; cursor: pointer; display: inline-block; margin-top: 8px; }
-    .lang-select { background: white; color: #01426a; border-radius: 5px; padding: 4px 8px; font-weight: bold; margin-left: 10px; }
+    nav a {
+      margin-left: 15px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-block;
+      margin-top: 8px;
+    }
+    .lang-select {
+      background: white;
+      color: #01426a;
+      border-radius: 5px;
+      padding: 4px 8px;
+      font-weight: bold;
+      margin-left: 10px;
+    }
 
-    .hero { padding: 100px 20px; background: #e0f2ff; text-align: center; animation: fadeIn 0.6s ease-in-out; }
+    .hero {
+      padding: 100px 20px;
+      background: #e0f2ff;
+      text-align: center;
+      animation: fadeIn 0.6s ease-in-out;
+    }
     .hero h1 { font-size: 2.5rem; margin-bottom: 20px; }
     .hero p { font-size: 1.1rem; margin-bottom: 30px; }
-    .hero button { background: #01426a; color: white; padding: 12px 24px; font-size: 1rem; border: none; border-radius: 5px; cursor: pointer; transition: transform 0.2s ease; }
+    .hero button {
+      background: #01426a;
+      color: white;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
     .hero button:hover { transform: scale(1.05); }
 
-    .features, .steps { padding: 60px 20px; text-align: center; }
+    .features, .steps {
+      padding: 60px 20px;
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
     .features h2, .steps h2 { font-size: 2rem; margin-bottom: 30px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; }
-    .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-    .card:hover { transform: translateY(-5px); box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    }
 
-    footer { background: #01426a; color: white; padding: 40px 20px; text-align: center; margin-top: 40px; }
+    footer {
+      background: #01426a;
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    #spinner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255,255,255,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .loader {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #01426a;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
@@ -40,6 +126,8 @@
   </style>
 </head>
 <body>
+  <div id="spinner"><div class="loader"></div></div>
+
   <header>
     <div class="logo"><strong>COINAWE</strong></div>
     <div>
@@ -79,6 +167,10 @@
   </footer>
 
   <script>
+    window.addEventListener("load", () => {
+      document.getElementById("spinner").style.display = "none";
+    });
+
     const translations = {
       id: {
         nav: ["Beranda", "Buat Escrow", "Cara Kerja", "Riwayat", "Kontak"],
