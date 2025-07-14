@@ -1,9 +1,11 @@
+
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Form Buat Escrow</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
       background-color: #0f172a;
@@ -15,8 +17,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
       margin-bottom: 20px;
     }
     select.lang-switch {
@@ -67,43 +67,9 @@
     .btn-back:hover {
       background: #334155;
     }
-    #spinner {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
-    .loader {
-      border: 6px solid #f3f3f3;
-      border-top: 6px solid #38bdf8;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    form {
-      max-width: 600px;
-      margin: auto;
-      animation: fadeIn 0.6s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
   </style>
 </head>
 <body>
-  <div id="spinner"><div class="loader"></div></div>
   <header>
     <h2 id="form-title">🚀 Formulir Buat Escrow</h2>
     <select class="lang-switch" onchange="setLanguage(this.value)">
@@ -116,19 +82,19 @@
   <form 
     action="https://script.google.com/macros/s/AKfycbywHuDI_p6ZrFJakBxZbCd4fhmc0sVeQj4vVQkSgOfP39XJXr9tbs7M0SL8VqpPjVyZ_w/exec" 
     method="post"
-    onsubmit="return validateForm()"
+    onsubmit="return confirm(confirmText)"
   >
     <label for="buyer" id="label-buyer"></label>
-    <input id="buyer" name="buyer" required placeholder="@username" />
+    <input id="buyer" name="buyer" required placeholder="@username">
 
     <label for="seller" id="label-seller"></label>
-    <input id="seller" name="seller" required placeholder="@username" />
+    <input id="seller" name="seller" required placeholder="@username">
 
     <label for="item" id="label-item"></label>
-    <input id="item" name="item" required placeholder="Logo Design / Layanan" />
+    <input id="item" name="item" required placeholder="Example: Logo Design">
 
     <label for="amount" id="label-amount"></label>
-    <input id="amount" name="amount" type="number" min="1" required placeholder="100" />
+    <input id="amount" name="amount" type="number" min="1" required placeholder="Example: 100">
 
     <label for="token" id="label-token"></label>
     <select id="token" name="token" required>
@@ -147,10 +113,6 @@
   </form>
 
   <script>
-    window.addEventListener("load", () => {
-      document.getElementById("spinner").style.display = "none";
-    });
-
     const translations = {
       id: {
         title: "🚀 Formulir Buat Escrow",
@@ -208,14 +170,9 @@
       window.history.back();
     }
 
-    function validateForm() {
-      const amount = parseFloat(document.getElementById("amount").value);
-      if (isNaN(amount) || amount <= 0) {
-        alert("Nominal harus lebih dari 0");
-        return false;
-      }
-      return confirm(confirmText);
-    }
-
+    // Set language based on browser default
     const browserLang = navigator.language.slice(0, 2);
-    setLanguage(['id', 'en', 'ru'].includes(browserLang) ? browserLang
+    setLanguage(['id', 'en', 'ru'].includes(browserLang) ? browserLang : 'en');
+  </script>
+</body>
+</html>
