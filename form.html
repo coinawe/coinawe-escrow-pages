@@ -1,178 +1,103 @@
-
-
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Form Buat Escrow</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create New Escrow</title>
   <style>
     body {
-      background-color: #0f172a;
-      color: #38bdf8;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: sans-serif;
+      background-color: #f4f6fa;
       padding: 20px;
     }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
+
+    .container {
+      max-width: 480px;
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      margin: 0 auto;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
-    select.lang-switch {
-      background-color: #1e293b;
-      color: #e2e8f0;
-      border: 1px solid #334155;
-      padding: 6px;
-      border-radius: 6px;
-    }
+
     h2 {
-      text-align: center;
+      margin-bottom: 16px;
+      font-size: 1.5rem;
     }
+
     label {
       display: block;
-      margin-top: 10px;
-      margin-bottom: 4px;
+      margin-top: 12px;
+      margin-bottom: 6px;
+      font-weight: 500;
     }
+
     input, select {
-      background-color: #1e293b;
-      color: #e2e8f0;
-      border: 1px solid #334155;
+      width: 100%;
       padding: 10px;
-      width: 100%;
-      border-radius: 6px;
-      margin-bottom: 12px;
-    }
-    button {
-      background: linear-gradient(90deg, #06b6d4, #3b82f6);
-      color: #0f172a;
-      font-weight: bold;
-      padding: 12px;
-      width: 100%;
-      border: none;
+      font-size: 1rem;
+      border: 1px solid #ccc;
       border-radius: 8px;
-      box-shadow: 0 0 8px #38bdf8;
-      transition: all 0.3s ease;
-      margin-bottom: 10px;
     }
+
+    button {
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px;
+      margin-top: 20px;
+      width: 100%;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
     button:hover {
-      box-shadow: 0 0 16px #38bdf8;
-      transform: scale(1.02);
+      background-color: #1d4ed8;
     }
-    .btn-back {
-      background: #1e293b;
-      color: #e2e8f0;
-      border: 1px solid #334155;
-    }
-    .btn-back:hover {
-      background: #334155;
+
+    .success {
+      margin-top: 16px;
+      color: green;
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h2 id="form-title">🚀 Formulir Buat Escrow</h2>
-    <select class="lang-switch" onchange="setLanguage(this.value)">
-      <option value="id">🌐 Bahasa</option>
-      <option value="en">English</option>
-      <option value="ru">Русский</option>
-    </select>
-  </header>
+  <div class="container">
+    <h2>Create New Escrow</h2>
+    
+    <form
+      action="https://script.google.com/macros/s/AKfycbywHuDI_p6ZrFJakBxZbCd4fhmc0sVeQj4vVQkSgOfP39XJXr9tbs7M0SL8VqpPjVyZ_w/exec"
+      method="post"
+      onsubmit="return confirm('Are you sure all data is correct?')"
+    >
+      <label for="title">Title</label>
+      <input type="text" id="title" name="title" required />
 
-  <form 
-    action="https://script.google.com/macros/s/AKfycbywHuDI_p6ZrFJakBxZbCd4fhmc0sVeQj4vVQkSgOfP39XJXr9tbs7M0SL8VqpPjVyZ_w/exec" 
-    method="post"
-    onsubmit="return confirm(confirmText)"
-  >
-    <label for="buyer" id="label-buyer"></label>
-    <input id="buyer" name="buyer" required placeholder="@username">
+      <label for="buyer">Buyer (@username)</label>
+      <input type="text" id="buyer" name="buyer" required />
 
-    <label for="seller" id="label-seller"></label>
-    <input id="seller" name="seller" required placeholder="@username">
+      <label for="seller">Seller (@username)</label>
+      <input type="text" id="seller" name="seller" required />
 
-    <label for="item" id="label-item"></label>
-    <input id="item" name="item" required placeholder="Example: Logo Design">
+      <label for="amount">Amount</label>
+      <input type="number" id="amount" name="amount" step="0.01" required />
 
-    <label for="amount" id="label-amount"></label>
-    <input id="amount" name="amount" type="number" min="1" required placeholder="Example: 100">
+      <label for="token">Token</label>
+      <select name="token" required>
+        <option value="">-- Select Token --</option>
+        <option value="TON">TON</option>
+        <option value="AWEWE">AWEWE</option>
+        <option value="USDT">USDT</option>
+        <option value="BNB">BNB</option>
+        <option value="ETH">ETH</option>
+        <option value="BTC">BTC</option>
+        <option value="IDR">IDR (Rupiah)</option>
+      </select>
 
-    <label for="token" id="label-token"></label>
-    <select id="token" name="token" required>
-      <option value="">-- Select Token --</option>
-      <option value="TON">TON</option>
-      <option value="AWEWE">AWEWE</option>
-      <option value="USDT">USDT</option>
-      <option value="BNB">BNB</option>
-      <option value="ETH">ETH</option>
-      <option value="BTC">BTC</option>
-      <option value="IDR">IDR (Rupiah)</option>
-    </select>
-
-    <button type="submit" id="submit-button"></button>
-    <button type="button" class="btn-back" onclick="goBack()" id="back-button"></button>
-  </form>
-
-  <script>
-    const translations = {
-      id: {
-        title: "🚀 Formulir Buat Escrow",
-        buyer: "Username Pembeli:",
-        seller: "Username Penjual:",
-        item: "Item / Layanan:",
-        amount: "Jumlah (Nominal):",
-        token: "Token yang Digunakan:",
-        submit: "Kirim",
-        back: "Kembali",
-        confirm: "Apakah semua data sudah benar?"
-      },
-      en: {
-        title: "🚀 Create Escrow Form",
-        buyer: "Buyer Username:",
-        seller: "Seller Username:",
-        item: "Item / Service:",
-        amount: "Amount:",
-        token: "Token Used:",
-        submit: "Submit",
-        back: "Back",
-        confirm: "Is all data correct?"
-      },
-      ru: {
-        title: "🚀 Форма Эскроу",
-        buyer: "Имя покупателя:",
-        seller: "Имя продавца:",
-        item: "Товар / Услуга:",
-        amount: "Сумма:",
-        token: "Используемый токен:",
-        submit: "Отправить",
-        back: "Назад",
-        confirm: "Все данные верны?"
-      }
-    };
-
-    let currentLang = 'id';
-    let confirmText = translations['id'].confirm;
-
-    function setLanguage(lang) {
-      currentLang = lang;
-      const t = translations[lang] || translations['en'];
-      document.getElementById('form-title').innerText = t.title;
-      document.getElementById('label-buyer').innerText = t.buyer;
-      document.getElementById('label-seller').innerText = t.seller;
-      document.getElementById('label-item').innerText = t.item;
-      document.getElementById('label-amount').innerText = t.amount;
-      document.getElementById('label-token').innerText = t.token;
-      document.getElementById('submit-button').innerText = t.submit;
-      document.getElementById('back-button').innerText = "⬅ " + t.back;
-      confirmText = t.confirm;
-    }
-
-    function goBack() {
-      window.history.back();
-    }
-
-    // Set language based on browser default
-    const browserLang = navigator.language.slice(0, 2);
-    setLanguage(['id', 'en', 'ru'].includes(browserLang) ? browserLang : 'en');
-  </script>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
 </body>
 </html>
