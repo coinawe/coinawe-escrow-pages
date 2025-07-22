@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -9,72 +8,41 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
     body { background-color: #f8f9fa; color: #333; }
-    header {
-      background-color: #01426a;
-      color: white;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: relative;
-    }
-    .logo a { color: white; text-decoration: none; font-weight: bold; font-size: 1.3rem; }
-    nav { display: flex; align-items: center; gap: 15px; }
-    nav a { color: white; text-decoration: none; font-weight: 600; cursor: pointer; }
-    .lang-select {
-      background: white;
-      color: #01426a;
-      border-radius: 5px;
-      padding: 4px 8px;
-      font-weight: bold;
-    }
-    /* Hamburger button */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-      gap: 4px;
-    }
-    .hamburger span {
-      width: 25px;
-      height: 3px;
-      background: white;
-      border-radius: 3px;
-      transition: 0.3s;
-    }
-    /* Mobile menu hidden by default */
-    .nav-links {
-      display: flex;
-      gap: 15px;
-      align-items: center;
-    }
-    @media (max-width: 768px) {
-      .hamburger { display: flex; }
-      .nav-links {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 60px;
-        right: 20px;
-        background: #01426a;
-        width: 200px;
-        padding: 15px;
-        border-radius: 8px;
-      }
-      .nav-links.active { display: flex; }
-      .dropdown { width: 100%; }
-      .dropdown-content {
-        position: relative;
-        background: #02588a;
-        width: 100%;
-        border-radius: 5px;
-      }
+    header { background-color: #01426a; color: white; padding: 20px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+    nav { margin-top: 10px; }
+    nav a { margin-left: 15px; color: white; text-decoration: none; font-weight: 600; cursor: pointer; display: inline-block; margin-top: 8px; }
+    .lang-select { background: white; color: #01426a; border-radius: 5px; padding: 4px 8px; font-weight: bold; margin-left: 10px; }
+
+    .hero { padding: 100px 20px; background: #e0f2ff; text-align: center; animation: fadeIn 0.6s ease-in-out; }
+    .hero h1 { font-size: 2.5rem; margin-bottom: 20px; }
+    .hero p { font-size: 1.1rem; margin-bottom: 30px; }
+    .hero button { background: #01426a; color: white; padding: 12px 24px; font-size: 1rem; border: none; border-radius: 5px; cursor: pointer; transition: transform 0.2s ease; }
+    .hero button:hover { transform: scale(1.05); }
+
+    .features, .steps { padding: 60px 20px; text-align: center; }
+    .features h2, .steps h2 { font-size: 2rem; margin-bottom: 30px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; }
+    .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
+
+    footer { background: #01426a; color: white; padding: 40px 20px; text-align: center; margin-top: 40px; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Dropdown */
+    @media (max-width: 600px) {
+      header { flex-direction: column; align-items: flex-start; }
+      nav { display: flex; flex-wrap: wrap; gap: 10px; }
+      .hero h1 { font-size: 1.8rem; }
+    }
+
+    /* === Dropdown Mobile-Friendly === */
     .dropdown {
       position: relative;
       display: inline-block;
+      margin-left: 15px;
     }
     .dropdown-content {
       display: none;
@@ -93,30 +61,20 @@
       font-size: 0.9rem;
       cursor: pointer;
     }
-    .dropdown-content a:hover { background-color: #0166a4; }
+    .dropdown-content a:hover {
+      background-color: #0166a4;
+    }
     .dropdown-content a + a {
       border-top: 1px solid rgba(255,255,255,0.2);
     }
-    @media (min-width: 769px) {
-      .dropdown:hover .dropdown-content { display: block; }
+    @media (min-width: 601px) {
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
     }
-    .dropdown.active .dropdown-content { display: block; }
-
-    /* Hero */
-    .hero { padding: 100px 20px; background: #e0f2ff; text-align: center; }
-    .hero h1 { font-size: 2.5rem; margin-bottom: 20px; }
-    .hero p { font-size: 1.1rem; margin-bottom: 30px; }
-    .hero button {
-      background: #01426a;
-      color: white;
-      padding: 12px 24px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: transform 0.2s ease;
+    .dropdown.active .dropdown-content {
+      display: block;
     }
-    .hero button:hover { transform: scale(1.05); }
   </style>
 </head>
 <body>
@@ -145,12 +103,25 @@
       </div>
     </nav>
   </header>
-
   <section id="hero" class="hero">
     <h1 id="hero-title"></h1>
     <p id="hero-desc"></p>
     <button onclick="location.href='form.html'" id="hero-button"></button>
   </section>
+
+  <section class="features">
+    <h2 id="feature-title"></h2>
+    <div class="grid" id="features-list"></div>
+  </section>
+
+  <section id="steps" class="steps">
+    <h2 id="steps-title"></h2>
+    <div class="grid" id="steps-list"></div>
+  </section>
+
+  <footer>
+    <p id="copyright"></p>
+  </footer>
 
   <script>
     const translations = {
@@ -158,19 +129,34 @@
         nav: ["Beranda", "Buat Escrow", "Cara Kerja", "Riwayat", "Kontak"],
         title: "Aman, Cepat, dan Terpercaya",
         desc: "Platform escrow lokal untuk transaksi online yang lebih aman.",
-        button: "Mulai Sekarang"
+        button: "Mulai Sekarang",
+        features: ["Keamanan Tingkat Tinggi", "Proses Cepat & Mudah", "Dukungan Komunitas", "Transparansi & Pelacakan"],
+        steps: ["Buat Escrow", "Kirim Dana", "Transaksi Aman", "Dana Dilepas"],
+        featureTitle: "Keunggulan Kami",
+        stepsTitle: "Cara Kerja Escrow",
+        copyright: "© 2025 COINAWE. Semua hak dilindungi."
       },
       en: {
         nav: ["Home", "Create Escrow", "How It Works", "History", "Contact"],
         title: "Secure, Fast & Trusted",
         desc: "A local escrow platform for safer online transactions.",
-        button: "Get Started"
+        button: "Get Started",
+        features: ["Top-notch Security", "Fast & Easy Process", "Community Support", "Transparency & Tracking"],
+        steps: ["Create Escrow", "Send Funds", "Safe Transaction", "Release Funds"],
+        featureTitle: "Our Features",
+        stepsTitle: "How Escrow Works",
+        copyright: "© 2025 COINAWE. All rights reserved."
       },
       ru: {
         nav: ["Главная", "Создать Эскроу", "Как это работает", "История", "Контакты"],
         title: "Безопасно, Быстро и Надежно",
         desc: "Локальная эскроу-платформа для безопасных онлайн-сделок.",
-        button: "Начать сейчас"
+        button: "Начать сейчас",
+        features: ["Высокая безопасность", "Быстро и просто", "Поддержка сообщества", "Прозрачность и отслеживание"],
+        steps: ["Создать эскроу", "Отправить средства", "Безопасная сделка", "Освобождение средств"],
+        featureTitle: "Наши Преимущества",
+        stepsTitle: "Как работает Эскроу",
+        copyright: "© 2025 COINAWE. Все права защищены."
       }
     };
 
@@ -185,6 +171,11 @@
       document.getElementById('hero-title').innerText = t.title;
       document.getElementById('hero-desc').innerText = t.desc;
       document.getElementById('hero-button').innerText = t.button;
+      document.getElementById('feature-title').innerText = t.featureTitle;
+      document.getElementById('steps-title').innerText = t.stepsTitle;
+      document.getElementById('features-list').innerHTML = t.features.map(f => `<div class="card">${f}</div>`).join('');
+      document.getElementById('steps-list').innerHTML = t.steps.map((s, i) => `<div class="card">${i + 1}. ${s}</div>`).join('');
+      document.getElementById('copyright').innerText = t.copyright;
     }
 
     const browserLang = navigator.language.slice(0, 2);
@@ -193,10 +184,6 @@
     function scrollToSection(id) {
       const section = document.getElementById(id);
       if (section) section.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function toggleMenu() {
-      document.getElementById('nav-links').classList.toggle('active');
     }
 
     function toggleDropdown(el) {
