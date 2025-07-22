@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -79,30 +80,32 @@
 </head>
 <body>
   <header>
-    <div class="logo"><a href="https://coinawe.site">COINAWE</a></div>
-    <div class="hamburger" onclick="toggleMenu()">
-      <span></span><span></span><span></span>
+    <div class="logo">
+      <a href="https://coinawe.site" style="color:white; text-decoration:none;"><strong>COINAWE</strong></a>
     </div>
-    <nav class="nav-links" id="nav-links">
+    <div>
       <select class="lang-select" onchange="setLanguage(this.value)">
         <option value="id">🇮🇩 Bahasa</option>
         <option value="en">🇬🇧 English</option>
         <option value="ru">🇷🇺 Русский</option>
       </select>
-      <a href="https://coinawe.site" id="nav-home"></a>
-      <a href="form.html" id="nav-form"></a>
-      <a onclick="scrollToSection('steps')" id="nav-steps"></a>
-      <a href="history.html" id="nav-history"></a>
-      <div class="dropdown" onclick="toggleDropdown(this)">
-        <a href="#" id="nav-contact"></a>
-        <div class="dropdown-content">
-          <a href="https://t.me/coinawechat" target="_blank">💬 Group Chat</a>
-          <a href="https://t.me/coinawechannel" target="_blank">📢 Channel</a>
-          <a href="https://t.me/coinawesupport" target="_blank">🎧 Support</a>
+      <nav>
+        <a href="https://coinawe.site" id="nav-home"></a>
+        <a href="form.html" id="nav-form"></a>
+        <a onclick="scrollToSection('steps')" id="nav-steps"></a>
+        <a href="history.html" id="nav-history"></a>
+        <div class="dropdown" onclick="toggleDropdown(this)">
+          <a href="#" id="nav-contact"></a>
+          <div class="dropdown-content">
+            <a href="https://t.me/awebase" target="_blank">💬 Group Chat</a>
+            <a href="https://t.me/coinawe" target="_blank">📢 Channel</a>
+            <a href="https://t.me/relog" target="_blank">🎧 Support</a>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
   </header>
+
   <section id="hero" class="hero">
     <h1 id="hero-title"></h1>
     <p id="hero-desc"></p>
