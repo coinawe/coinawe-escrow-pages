@@ -14,7 +14,11 @@
     button { background-color: #2563eb; color: white; border: none; padding: 12px; margin-top: 20px;
       width: 100%; font-size: 1rem; border-radius: 8px; cursor: pointer; }
     button:hover { background-color: #1d4ed8; }
-    .success { margin-top: 16px; color: green; font-weight: 600; }
+    .back-btn { background-color: #6b7280; }
+    .back-btn:hover { background-color: #4b5563; }
+    .menu-btn { background-color: #10b981; display: none; } /* Awalnya disembunyikan */
+    .menu-btn:hover { background-color: #059669; }
+    .success { margin-top: 16px; color: green; font-weight: 600; text-align: center; }
   </style>
 </head>
 <body>
@@ -46,13 +50,15 @@
       </select>
 
       <button type="submit">Submit</button>
+      <button type="button" class="back-btn" onclick="window.history.back()">⬅ Kembali</button>
     </form>
+    
     <div class="success" id="successMsg"></div>
+    <button id="menuBtn" class="menu-btn" onclick="window.location.href='https://coinawe.site/'">🏠 Menu Utama</button>
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbyd7bwrQmWFs6pxrwuxK9a7CD2OGS3ixK1XV0Nj8c8glSBpEUP0XeE1MLvj-j19Synf/exec"; 
-    // GANTI dengan URL Web Apps kamu
+    const API_URL = "https://script.google.com/macros/s/AKfycbyd7bwrQmWFs6pxrwuxK9a7CD2OGS3ixK1XV0Nj8c8glSBpEUP0XeE1MLvj-j19Synf/exec";
 
     document.getElementById("escrowForm").addEventListener("submit", async function (e) {
       e.preventDefault();
@@ -62,41 +68,21 @@
       const params = new URLSearchParams(formData);
 
       await fetch(API_URL, { method: "POST", body: params });
+
       document.getElementById("successMsg").innerText = "✅ Escrow berhasil dibuat!";
+      document.getElementById("menuBtn").style.display = "block"; // ✅ Munculkan tombol Menu Utama
       this.reset();
     });
+
+    // Blokir klik kanan & shortcut devtools
+    document.addEventListener("contextmenu", e => { e.preventDefault(); alert("❌ Action disabled for security reasons!"); });
+    document.addEventListener("keydown", function(e) {
+      if (e.ctrlKey && (e.key === "u" || e.key === "U")) { alert("❌ View Source is disabled!"); e.preventDefault(); }
+      if (e.key === "F12") { alert("❌ Developer Tools is disabled!"); e.preventDefault(); }
+      if (e.ctrlKey && e.shiftKey && (e.key === "i" || e.key === "I")) { alert("❌ Inspect Element is disabled!"); e.preventDefault(); }
+      if (e.ctrlKey && e.shiftKey && (e.key === "j" || e.key === "J")) { alert("❌ Console is disabled!"); e.preventDefault(); }
+    });
+    document.addEventListener("dragstart", e => e.preventDefault());
   </script>
-  <script>
-  // Blokir klik kanan
-  document.addEventListener("contextmenu", function(e) {
-    e.preventDefault();
-    alert("❌ Action disabled for security reasons!");
-  });
-
-  // Blokir beberapa shortcut developer tools
-  document.addEventListener("keydown", function(e) {
-    if (e.ctrlKey && (e.key === "u" || e.key === "U")) {
-      alert("❌ View Source is disabled!");
-      e.preventDefault();
-    }
-    if (e.key === "F12") {
-      alert("❌ Developer Tools is disabled!");
-      e.preventDefault();
-    }
-    if (e.ctrlKey && e.shiftKey && (e.key === "i" || e.key === "I")) {
-      alert("❌ Inspect Element is disabled!");
-      e.preventDefault();
-    }
-    if (e.ctrlKey && e.shiftKey && (e.key === "j" || e.key === "J")) {
-      alert("❌ Console is disabled!");
-      e.preventDefault();
-    }
-  });
-
-  // (Opsional) Blokir drag teks & gambar
-  document.addEventListener("dragstart", function(e) {
-    e.preventDefault();
-  });
-</script>
 </body>
 </html>
