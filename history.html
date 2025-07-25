@@ -1,179 +1,80 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Riwayat Transaksi</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coinawe Escrow History</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
-    body {
-      background-color: #0f172a;
-      color: #e2e8f0;
-      font-family: 'Segoe UI', sans-serif;
-      padding: 20px;
-    }
-    header {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    h2 {
-      font-size: 1.5rem;
-      color: #38bdf8;
-    }
-    select, input[type="text"] {
-      background-color: #1e293b;
-      color: #e2e8f0;
-      border: 1px solid #334155;
-      padding: 6px 12px;
-      border-radius: 6px;
-    }
-    .controls {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-    .entry {
-      background-color: #1e293b;
-      padding: 16px;
-      margin-bottom: 12px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-      animation: fadeIn 0.3s ease;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .entry:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
-    }
-    .entry b { color: #f0f9ff; }
-    .status {
-      font-weight: bold;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-    .status.Completed {
-      background-color: #22c55e;
-      color: #0f172a;
-    }
-    .status.Pending {
-      background-color: #facc15;
-      color: #0f172a;
-    }
-    .status.Cancelled {
-      background-color: #ef4444;
-      color: #fff;
-    }
-    .footer {
-      text-align: center;
-      font-size: 0.85rem;
-      margin-top: 20px;
-      color: #94a3b8;
-    }
-    #back-home-button {
-      display: inline-block;
-      background-color: #1e293b;
-      color: #e2e8f0;
-      padding: 10px 20px;
-      border-radius: 8px;
-      border: 1px solid #334155;
-      text-decoration: none;
-      font-weight: bold;
-      margin-top: 30px;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    body { font-family: Arial, sans-serif; background: #f7f7f7; margin: 0; padding: 10px; }
+    h2 { color: #333; }
+    .search-box { display: flex; gap: 5px; margin-bottom: 10px; }
+    input { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 5px; }
+    button { padding: 8px 12px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    table { width: 100%; border-collapse: collapse; background: white; border-radius: 5px; overflow: hidden; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background: #007bff; color: white; }
+    tr:nth-child(even) { background: #f2f2f2; }
   </style>
 </head>
 <body>
-  <header>
-    <h2>🧾 Riwayat Escrow</h2>
-    <select onchange="setLanguage(this.value)">
-      <option value="id">🌐 Bahasa</option>
-      <option value="en">English</option>
-    </select>
-  </header>
-
-  <div class="controls">
-    <input type="text" id="search-input" placeholder="🔍 Cari Buyer/Seller...">
+  <h2>Riwayat Escrow</h2>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Cari username...">
+    <button onclick="searchHistory()">Cari</button>
   </div>
-
-  <div id="history">Memuat data...</div>
-
-  <div class="footer">Menampilkan transaksi berdasarkan ID pengguna.</div>
-  <div style="text-align:center;">
-    <a href="index.html" id="back-home-button">⬅ Kembali ke Menu Utama</a>
-  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Buyer</th>
+        <th>Seller</th>
+        <th>Item</th>
+        <th>Amount</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="escrowTable">
+      <tr><td colspan="6">Loading...</td></tr>
+    </tbody>
+  </table>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbyd7bwrQmWFs6pxrwuxK9a7CD2OGS3ixK1XV0Nj8c8glSBpEUP0XeE1MLvj-j19Synf/exec"; 
-    // GANTI dengan URL Web Apps kamu
+    const SHEET_API = "https://script.google.com/macros/s/YOUR_DEPLOYED_WEBAPP_ID/exec?action=history";
 
     async function loadHistory() {
-      const res = await fetch(API_URL);
+      const res = await fetch(SHEET_API);
       const data = await res.json();
-      const container = document.getElementById("history");
-      container.innerHTML = "";
+      renderTable(data);
+    }
 
-      const searchValue = document.getElementById("search-input").value.toLowerCase();
-
-      data.reverse().forEach((item) => {
-        if (
-          item.buyer.toLowerCase().includes(searchValue) ||
-          item.seller.toLowerCase().includes(searchValue)
-        ) {
-          const div = document.createElement("div");
-          div.className = "entry";
-          div.innerHTML = `
-            <b>${item.title}</b><br>
-            Buyer: @${item.buyer} | Seller: @${item.seller}<br>
-            Amount: ${item.amount} ${item.token}<br>
-            <span class="status ${item.status}">${item.status}</span>
-          `;
-          container.appendChild(div);
-        }
+    function renderTable(data) {
+      const tbody = document.getElementById("escrowTable");
+      tbody.innerHTML = "";
+      data.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row.escrow_id}</td>
+          <td>@${row.buyer}</td>
+          <td>@${row.seller}</td>
+          <td>${row.item}</td>
+          <td>${row.amount}</td>
+          <td>${row.status}</td>
+        `;
+        tbody.appendChild(tr);
       });
     }
 
-    document.getElementById("search-input").addEventListener("input", loadHistory);
-    window.onload = loadHistory;
+    function searchHistory() {
+      const keyword = document.getElementById("searchInput").value.toLowerCase();
+      document.querySelectorAll("#escrowTable tr").forEach(tr => {
+        const text = tr.innerText.toLowerCase();
+        tr.style.display = text.includes(keyword) ? "" : "none";
+      });
+    }
+
+    loadHistory();
   </script>
-  <script>
-  // Blokir klik kanan
-  document.addEventListener("contextmenu", function(e) {
-    e.preventDefault();
-    alert("❌ Action disabled for security reasons!");
-  });
-
-  // Blokir beberapa shortcut developer tools
-  document.addEventListener("keydown", function(e) {
-    if (e.ctrlKey && (e.key === "u" || e.key === "U")) {
-      alert("❌ View Source is disabled!");
-      e.preventDefault();
-    }
-    if (e.key === "F12") {
-      alert("❌ Developer Tools is disabled!");
-      e.preventDefault();
-    }
-    if (e.ctrlKey && e.shiftKey && (e.key === "i" || e.key === "I")) {
-      alert("❌ Inspect Element is disabled!");
-      e.preventDefault();
-    }
-    if (e.ctrlKey && e.shiftKey && (e.key === "j" || e.key === "J")) {
-      alert("❌ Console is disabled!");
-      e.preventDefault();
-    }
-  });
-
-  // (Opsional) Blokir drag teks & gambar
-  document.addEventListener("dragstart", function(e) {
-    e.preventDefault();
-  });
-</script>
 </body>
 </html>
