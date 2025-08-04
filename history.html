@@ -1,133 +1,134 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coinawe - Maintenance</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --neon-blue: #00bfff;
-            --dark-blue: #0a0e1c;
-            --button-bg: #fff;
-            --button-text: #000;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coinawe - Maintenance</title>
+  <meta name="description" content="Coinawe escrow system under maintenance. Stay connected via Telegram and website.">
+  <link rel="icon" href="https://coinawe.site/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon-blue: #00bfff;
+      --dark-blue: #0a0e1c;
+      --button-bg: rgba(255, 255, 255, 0.1);
+      --button-text: #fff;
+    }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--dark-blue);
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            overflow: hidden; /* Prevent scrollbars from the clouds */
-            position: relative;
-        }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--dark-blue);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+    }
 
-        /* Neon Clouds Background Effect */
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 300%;
-            height: 300%;
-            background: radial-gradient(circle, var(--neon-blue) 10%, rgba(10, 14, 28, 0) 70%);
-            opacity: 0.1;
-            transform: translate(-50%, -50%);
-            animation: cloud-movement 60s infinite linear;
-            filter: blur(150px);
-        }
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 300%;
+      height: 300%;
+      background: radial-gradient(circle, var(--neon-blue) 10%, rgba(10, 14, 28, 0) 70%);
+      opacity: 0.1;
+      transform: translate(-50%, -50%);
+      animation: cloud-movement 60s infinite linear;
+      filter: blur(150px);
+    }
 
-        @keyframes cloud-movement {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            50% { transform: translate(-10%, -60%) rotate(180deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
+    @keyframes cloud-movement {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      50% { transform: translate(-10%, -60%) rotate(180deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
 
-        .container {
-            text-align: center;
-            z-index: 10;
-            padding: 40px;
-            background-color: rgba(10, 14, 28, 0.7);
-            border: 2px solid var(--neon-blue);
-            border-radius: 20px;
-            box-shadow: 0 0 40px var(--neon-blue), 0 0 20px rgba(0, 191, 255, 0.5) inset;
-            max-width: 90%;
-            width: 500px;
-            transition: all 0.3s ease;
-        }
+    .container {
+      text-align: center;
+      z-index: 10;
+      padding: 40px;
+      background-color: rgba(10, 14, 28, 0.7);
+      border: 2px solid var(--neon-blue);
+      border-radius: 20px;
+      box-shadow: 0 0 40px var(--neon-blue), 0 0 20px rgba(0, 191, 255, 0.5) inset;
+      max-width: 90%;
+      width: 500px;
+      transition: all 0.3s ease;
+    }
 
-        .container h1 {
-            font-size: 2.5rem;
-            text-shadow: 0 0 10px var(--neon-blue);
-            animation: neon-glow 1.5s infinite alternate;
-        }
+    .container h1 {
+      font-size: 2.5rem;
+      text-shadow: 0 0 10px var(--neon-blue);
+      animation: neon-glow 1.5s infinite alternate;
+    }
 
-        @keyframes neon-glow {
-            from { text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue); }
-            to { text-shadow: 0 0 20px var(--neon-blue), 0 0 30px var(--neon-blue), 0 0 40px var(--neon-blue); }
-        }
+    @keyframes neon-glow {
+      from { text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue); }
+      to { text-shadow: 0 0 20px var(--neon-blue), 0 0 30px var(--neon-blue), 0 0 40px var(--neon-blue); }
+    }
 
-        .message {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-        }
+    .message {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
 
-        .button-group {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
 
-        .button {
-            display: inline-block;
-            padding: 15px 25px;
-            font-size: 1rem;
-            font-weight: bold;
-            text-decoration: none;
-            color: var(--button-text);
-            background-color: var(--button-bg);
-            border-radius: 10px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            border: none;
-            cursor: pointer;
-        }
+    .button {
+      display: inline-block;
+      padding: 15px 25px;
+      font-size: 1rem;
+      font-weight: bold;
+      text-decoration: none;
+      color: var(--button-text);
+      background-color: var(--button-bg);
+      border-radius: 10px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      border: 2px solid var(--neon-blue);
+      cursor: pointer;
+      backdrop-filter: blur(3px);
+    }
 
-        .button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            background-color: #f0f0f0;
-        }
+    .button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 15px var(--neon-blue);
+      background-color: var(--neon-blue);
+      color: #000;
+    }
 
-        /* Media queries for responsive design */
-        @media (max-width: 600px) {
-            .container {
-                padding: 30px 20px;
-            }
-            .container h1 {
-                font-size: 1.8rem;
-            }
-            .message {
-                font-size: 1rem;
-            }
-        }
-    </style>
+    @media (max-width: 600px) {
+      .container {
+        padding: 30px 20px;
+      }
+      .container h1 {
+        font-size: 1.8rem;
+      }
+      .message {
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Coinawe</h1>
-        <p class="message">History escrow is under development</p>
-        <div class="button-group">
-            <a href="https://t.me/awebase" class="button" target="_blank" rel="noopener noreferrer">Komunitas Telegram</a>
-            <a href="https://t.me/coinawe" class="button" target="_blank" rel="noopener noreferrer">Channel Telegram</a>
-            <a href="https://coinawe.site/" class="button" target="_blank" rel="noopener noreferrer">Website</a>
-        </div>
+  <div class="container">
+    <h1>Coinawe</h1>
+    <p class="message">History escrow is under development</p>
+    <div class="button-group">
+      <a href="https://t.me/awebase" class="button" target="_blank" rel="noopener noreferrer">Komunitas Telegram</a>
+      <a href="https://t.me/coinawe" class="button" target="_blank" rel="noopener noreferrer">Channel Telegram</a>
+      <a href="https://coinawe.site/" class="button" target="_blank" rel="noopener noreferrer">Website</a>
     </div>
+  </div>
 </body>
 </html>
