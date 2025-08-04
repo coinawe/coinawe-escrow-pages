@@ -1,200 +1,134 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coinawe Site</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Coinawe - Maintenance</title>
+  <meta name="description" content="Coinawe escrow system under maintenance. Stay connected via Telegram and website.">
+  <link rel="icon" href="https://coinawe.site/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    body { background-color: #f8f9fa; color: #333; }
-    header { background-color: #01426a; color: white; padding: 20px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-    nav { margin-top: 10px; }
-    nav a { margin-left: 15px; color: white; text-decoration: none; font-weight: 600; cursor: pointer; display: inline-block; margin-top: 8px; }
-    .lang-select { background: white; color: #01426a; border-radius: 5px; padding: 4px 8px; font-weight: bold; margin-left: 10px; }
+    :root {
+      --neon-blue: #00bfff;
+      --dark-blue: #0a0e1c;
+      --button-bg: rgba(255, 255, 255, 0.1);
+      --button-text: #fff;
+    }
 
-    .hero { padding: 100px 20px; background: #e0f2ff; text-align: center; animation: fadeIn 0.6s ease-in-out; }
-    .hero h1 { font-size: 2.5rem; margin-bottom: 20px; }
-    .hero p { font-size: 1.1rem; margin-bottom: 30px; }
-    .hero button { background: #01426a; color: white; padding: 12px 24px; font-size: 1rem; border: none; border-radius: 5px; cursor: pointer; transition: transform 0.2s ease; }
-    .hero button:hover { transform: scale(1.05); }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--dark-blue);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+    }
 
-    .features, .steps { padding: 60px 20px; text-align: center; }
-    .features h2, .steps h2 { font-size: 2rem; margin-bottom: 30px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; }
-    .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-    .card:hover { transform: translateY(-5px); box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 300%;
+      height: 300%;
+      background: radial-gradient(circle, var(--neon-blue) 10%, rgba(10, 14, 28, 0) 70%);
+      opacity: 0.1;
+      transform: translate(-50%, -50%);
+      animation: cloud-movement 60s infinite linear;
+      filter: blur(150px);
+    }
 
-    footer { background: #01426a; color: white; padding: 40px 20px; text-align: center; margin-top: 40px; }
+    @keyframes cloud-movement {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      50% { transform: translate(-10%, -60%) rotate(180deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .container {
+      text-align: center;
+      z-index: 10;
+      padding: 40px;
+      background-color: rgba(10, 14, 28, 0.7);
+      border: 2px solid var(--neon-blue);
+      border-radius: 20px;
+      box-shadow: 0 0 40px var(--neon-blue), 0 0 20px rgba(0, 191, 255, 0.5) inset;
+      max-width: 90%;
+      width: 500px;
+      transition: all 0.3s ease;
+    }
+
+    .container h1 {
+      font-size: 2.5rem;
+      text-shadow: 0 0 10px var(--neon-blue);
+      animation: neon-glow 1.5s infinite alternate;
+    }
+
+    @keyframes neon-glow {
+      from { text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue); }
+      to { text-shadow: 0 0 20px var(--neon-blue), 0 0 30px var(--neon-blue), 0 0 40px var(--neon-blue); }
+    }
+
+    .message {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 15px 25px;
+      font-size: 1rem;
+      font-weight: bold;
+      text-decoration: none;
+      color: var(--button-text);
+      background-color: var(--button-bg);
+      border-radius: 10px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      border: 2px solid var(--neon-blue);
+      cursor: pointer;
+      backdrop-filter: blur(3px);
+    }
+
+    .button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 15px var(--neon-blue);
+      background-color: var(--neon-blue);
+      color: #000;
     }
 
     @media (max-width: 600px) {
-      header { flex-direction: column; align-items: flex-start; }
-      nav { display: flex; flex-wrap: wrap; gap: 10px; }
-      .hero h1 { font-size: 1.8rem; }
-    }
-
-    /* === Dropdown Mobile-Friendly === */
-    .dropdown {
-      position: relative;
-      display: inline-block;
-      margin-left: 15px;
-    }
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #01426a;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-      z-index: 1;
-      border-radius: 5px;
-    }
-    .dropdown-content a {
-      color: white;
-      padding: 10px 14px;
-      text-decoration: none;
-      display: block;
-      font-size: 0.9rem;
-      cursor: pointer;
-    }
-    .dropdown-content a:hover {
-      background-color: #0166a4;
-    }
-    .dropdown-content a + a {
-      border-top: 1px solid rgba(255,255,255,0.2);
-    }
-    @media (min-width: 601px) {
-      .dropdown:hover .dropdown-content {
-        display: block;
+      .container {
+        padding: 30px 20px;
       }
-    }
-    .dropdown.active .dropdown-content {
-      display: block;
+      .container h1 {
+        font-size: 1.8rem;
+      }
+      .message {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">
-      <a href="https://coinawe.site" style="color:white; text-decoration:none;"><strong>COINAWE</strong></a>
+  <div class="container">
+    <h1>Coinawe</h1>
+    <p class="message">Website is under development</p>
+    <div class="button-group">
+      <a href="https://t.me/awebase" class="button" target="_blank" rel="noopener noreferrer">Komunitas Telegram</a>
+      <a href="https://t.me/coinawe" class="button" target="_blank" rel="noopener noreferrer">Channel Telegram</a>
+      <a href="https://coinawe.site/" class="button" target="_blank" rel="noopener noreferrer">Website</a>
     </div>
-    <div>
-      <select class="lang-select" onchange="setLanguage(this.value)">
-        <option value="id">🇮🇩 Bahasa</option>
-        <option value="en">🇬🇧 English</option>
-        <option value="ru">🇷🇺 Русский</option>
-      </select>
-      <nav>
-        <a href="https://coinawe.site" id="nav-home"></a>
-        <a href="form.html" id="nav-form"></a>
-        <a onclick="scrollToSection('steps')" id="nav-steps"></a>
-        <a href="history.html" id="nav-history"></a>
-        <div class="dropdown" onclick="toggleDropdown(this)">
-          <a href="#" id="nav-contact"></a>
-          <div class="dropdown-content">
-            <a href="https://t.me/awebase" target="_blank">💬 Group Chat</a>
-            <a href="https://t.me/coinawe" target="_blank">📢 Channel</a>
-            <a href="https://t.me/marfhino" target="_blank">🎧 Support</a>
-          </div>
-        </div>
-      </nav>
-    </div>
-  </header>
-
-  <section id="hero" class="hero">
-    <h1 id="hero-title"></h1>
-    <p id="hero-desc"></p>
-    <button onclick="location.href='form.html'" id="hero-button"></button>
-  </section>
-
-  <section class="features">
-    <h2 id="feature-title"></h2>
-    <div class="grid" id="features-list"></div>
-  </section>
-
-  <section id="steps" class="steps">
-    <h2 id="steps-title"></h2>
-    <div class="grid" id="steps-list"></div>
-  </section>
-
-  <footer>
-    <p id="copyright"></p>
-  </footer>
-
-  <script>
-    const translations = {
-      id: {
-        nav: ["Beranda", "Buat Escrow", "Cara Kerja", "Riwayat", "Kontak"],
-        title: "Aman, Cepat, dan Terpercaya",
-        desc: "Platform escrow lokal untuk transaksi online yang lebih aman.",
-        button: "Mulai Sekarang",
-        features: ["Keamanan Tingkat Tinggi", "Proses Cepat & Mudah", "Dukungan Komunitas", "Transparansi & Pelacakan"],
-        steps: ["Buat Escrow", "Kirim Dana", "Transaksi Aman", "Dana Dilepas"],
-        featureTitle: "Keunggulan Kami",
-        stepsTitle: "Cara Kerja Escrow",
-        copyright: "© 2025 COINAWE. Semua hak dilindungi."
-      },
-      en: {
-        nav: ["Home", "Create Escrow", "How It Works", "History", "Contact"],
-        title: "Secure, Fast & Trusted",
-        desc: "A local escrow platform for safer online transactions.",
-        button: "Get Started",
-        features: ["Top-notch Security", "Fast & Easy Process", "Community Support", "Transparency & Tracking"],
-        steps: ["Create Escrow", "Send Funds", "Safe Transaction", "Release Funds"],
-        featureTitle: "Our Features",
-        stepsTitle: "How Escrow Works",
-        copyright: "© 2025 COINAWE. All rights reserved."
-      },
-      ru: {
-        nav: ["Главная", "Создать Эскроу", "Как это работает", "История", "Контакты"],
-        title: "Безопасно, Быстро и Надежно",
-        desc: "Локальная эскроу-платформа для безопасных онлайн-сделок.",
-        button: "Начать сейчас",
-        features: ["Высокая безопасность", "Быстро и просто", "Поддержка сообщества", "Прозрачность и отслеживание"],
-        steps: ["Создать эскроу", "Отправить средства", "Безопасная сделка", "Освобождение средств"],
-        featureTitle: "Наши Преимущества",
-        stepsTitle: "Как работает Эскроу",
-        copyright: "© 2025 COINAWE. Все права защищены."
-      }
-    };
-
-    function setLanguage(lang) {
-      const t = translations[lang] || translations['en'];
-      const [home, form, steps, history, contact] = t.nav;
-      document.getElementById('nav-home').innerText = home;
-      document.getElementById('nav-form').innerText = form;
-      document.getElementById('nav-steps').innerText = steps;
-      document.getElementById('nav-history').innerText = history;
-      document.getElementById('nav-contact').innerText = contact;
-      document.getElementById('hero-title').innerText = t.title;
-      document.getElementById('hero-desc').innerText = t.desc;
-      document.getElementById('hero-button').innerText = t.button;
-      document.getElementById('feature-title').innerText = t.featureTitle;
-      document.getElementById('steps-title').innerText = t.stepsTitle;
-      document.getElementById('features-list').innerHTML = t.features.map(f => `<div class="card">${f}</div>`).join('');
-      document.getElementById('steps-list').innerHTML = t.steps.map((s, i) => `<div class="card">${i + 1}. ${s}</div>`).join('');
-      document.getElementById('copyright').innerText = t.copyright;
-    }
-
-    const browserLang = navigator.language.slice(0, 2);
-    setLanguage(['id', 'en', 'ru'].includes(browserLang) ? browserLang : 'en');
-
-    function scrollToSection(id) {
-      const section = document.getElementById(id);
-      if (section) section.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function toggleDropdown(el) {
-      document.querySelectorAll('.dropdown').forEach(d => {
-        if (d !== el) d.classList.remove('active');
-      });
-      el.classList.toggle('active');
-    }
-  </script>
+  </div>
 </body>
 </html>
